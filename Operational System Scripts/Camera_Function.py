@@ -174,24 +174,24 @@ def display_histogram():
     # Initialize lists to store column-wise means and stds for the red/green ratio
     mean_red_green_ratio_per_column = []
     std_red_green_ratio_per_column = []
+    
     # Calculate the mean and std of the ratio for each column
-    ratio = red/green
+    ratio = red / green
     mean_ratio_per_column = np.mean(ratio, axis=0)  # Average across rows for each column
     std_ratio_per_column = np.std(ratio, axis=0)    # Standard deviation across rows for each column    
     mean_red_green_ratio_per_column.append(mean_ratio_per_column)
     std_red_green_ratio_per_column.append(std_ratio_per_column)
 
-    for mean_ratio in enumerate(mean_red_green_ratio_per_column):
-        plt.plot(mean_ratio)
+    # Plot the mean ratio per column
+    plt.plot(mean_ratio_per_column)
     plt.xlabel('Column Index')
     plt.ylabel('Mean Red/Green Ratio')
     plt.title('Mean Red/Green Ratio per Column Across All Images')
 
-    with matplotlib.rc_context({'backend': 'Agg'}):
-        desktop_path = "/home/martinoptode/Desktop/"
-        filename = "meanb_ratio_across_image_columns.png"
-        plt.savefig(os.path.join(desktop_path, filename))
-        plt.close()  # Close the figure to release resources
+    filename = "mean_ratio_across_image_columns.png"
+    plt.savefig(os.path.join(desktop_path, filename))
+    plt.close()  # Close the figure to release resources
+    print("Mean Red/Green Ratio plot saved to desktop")
 
 #Capture multiple images for calibration
 def capture_calibration(o2, num_images, exposure, iso, delay):
