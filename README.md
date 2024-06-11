@@ -7,21 +7,21 @@ Please refer to the paper ... for further information regarding the in-situ imag
 For additional questions please contact: martinreinhard@bio.au.dk
 
 ---
-**Setup of Raspberry Pi**
+**Setup of Raspberry Pi:**
 
-Download Raspberry Pi Imager v1.7.3 to PC or MAC
+- Download Raspberry Pi Imager v1.7.3 to PC or MAC
 
-Write Raspberry Pi OS (Debian Bookworm 64-bit) with Desktop to MicroSD card.
+- Write Raspberry Pi OS (Debian Bookworm 64-bit) with Desktop to MicroSD card.
 
-Boot Raspberry Pi and create user.
+- Boot Raspberry Pi and create user.
 
-Connect to WiFi mobile hotspot: 
+- Connect to WiFi mobile hotspot: 
 
--Edit the wpa_supplicant.conf file
+- Edit the wpa_supplicant.conf file
 
- In Terminal open with: ```sudo nano /etc/wpa_supplicant/wpa_supplicant.conf```
+  In Terminal open with: ```sudo nano /etc/wpa_supplicant/wpa_supplicant.conf```
   
-  ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
+  ```ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
   update_config=1
   country=<YOUR TWO LETTER COUNTRY CODE>
 
@@ -29,4 +29,4 @@ Connect to WiFi mobile hotspot:
       ssid="<YOUR NETWORK NAME>"
       psk="<YOUR NETWORK PASSWORD>"
       key_mgmt=WPA-PSK
-  }
+  }```
