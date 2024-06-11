@@ -1,2 +1,4 @@
-# Operate_In-Situ_Soil_Optode
-Visualizing heterogeneous microenvironments - In situ application of planar optodes in agricultural soils to study the spatiotemporal dynamics of NH3, O2, and pH.
+This Repository includes Python scripts that enables operation of the In-Situ imaging system.
+Run the script GUI_Control.py to operate the system through an interface
+
+
