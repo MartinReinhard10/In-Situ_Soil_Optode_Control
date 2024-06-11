@@ -171,27 +171,35 @@ def display_histogram():
     
     print("Histogrm saved to desktop")
 
-    # Initialize lists to store column-wise means and stds for the red/green ratio
-    mean_red_green_ratio_per_column = []
-    std_red_green_ratio_per_column = []
-    
-    # Calculate the mean and std of the ratio for each column
-    ratio = red / green
-    mean_ratio_per_column = np.mean(ratio, axis=0)  # Average across rows for each column
-    std_ratio_per_column = np.std(ratio, axis=0)    # Standard deviation across rows for each column    
-    mean_red_green_ratio_per_column.append(mean_ratio_per_column)
-    std_red_green_ratio_per_column.append(std_ratio_per_column)
+    # Assuming 'red', 'green', 'blue' are numpy arrays containing the color intensities
+    mean_red_intensity_per_column = []
+    mean_green_intensity_per_column = []
+    mean_blue_intensity_per_column = []
 
-    # Plot the mean ratio per column
-    plt.plot(mean_ratio_per_column)
-    plt.xlabel('Column Index')
-    plt.ylabel('Mean Red/Green Ratio')
-    plt.title('Mean Red/Green Ratio per Column Across All Images')
+    # Calculate the mean for each column
+    mean_red_per_column = np.mean(red, axis=0)  # Average across rows for each column
+    mean_green_per_column = np.mean(green, axis=0)  # Average across rows for each column
+    mean_blue_per_column = np.mean(blue, axis=0)  # Average across rows for each column
 
-    filename = "mean_ratio_across_image_columns.png"
+    # Append means to the respective lists
+    mean_red_intensity_per_column.append(mean_red_per_column)
+    mean_green_intensity_per_column.append(mean_green_per_column)
+    mean_blue_intensity_per_column.append(mean_blue_per_column)
+
+    # Plot the mean intensities per column for each color
+    plt.plot(mean_red_per_column, 'r', label='Red Intensity')  # Red line for red intensity
+    plt.plot(mean_green_per_column, 'g', label='Green Intensity')  # Green line for green intensity
+    plt.plot(mean_blue_per_column, 'b', label='Blue Intensity')  # Blue line for blue intensity
+
+    plt.xlabel('Column Index (0 is right side of image)')
+    plt.ylabel('Mean Intensity')
+    plt.title('Mean RGB Intensity per Column')
+    plt.legend()  # Add a legend to differentiate the colors
+
+    filename = "mean_rgb_across_image_columns.png"
     plt.savefig(os.path.join(desktop_path, filename))
     plt.close()  # Close the figure to release resources
-    print("Mean Red/Green Ratio plot saved to desktop")
+    print("Mean RGB Intensity plot saved to desktop")
 
 #Capture multiple images for calibration
 def capture_calibration(o2, num_images, exposure, iso, delay):
