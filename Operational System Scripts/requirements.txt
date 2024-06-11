@@ -1,0 +1,7 @@
+Adafruit-Blinka==8.41.2
+adafruit-circuitpython-dht==4.0.4
+adafruit-circuitpython-vl53l0x==3.6.11
+matplotlib==3.9.0
+tifffile==2024.5.22
+RPi.GPIO==0.7.1a4
+picamera2==0.3.17
