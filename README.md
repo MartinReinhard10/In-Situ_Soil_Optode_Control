@@ -60,4 +60,6 @@ For additional questions please contact: martinreinhard@bio.au.dk
 
 - Download Real VNV viewer to PC and input Raspberry Pi IP adress to connect over WiFi
 
+    - Log in using the user credentials applied during Rasoberry Pi setup
+
 - Open the folder containing the Python scripts and run GUI_Control.py to operate the system
