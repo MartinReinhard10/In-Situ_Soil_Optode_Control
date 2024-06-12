@@ -17,7 +17,7 @@ For additional questions please contact: martinreinhard@bio.au.dk
 
 - Connect to WiFi mobile hotspot in Terminal: ```sudo nano /etc/wpa_supplicant/wpa_supplicant.conf```
 
-    Edit the wpa_supplicant.conf file:
+    - Edit the wpa_supplicant.conf file:
 ````
     ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
     update_config=1
@@ -47,3 +47,17 @@ For additional questions please contact: martinreinhard@bio.au.dk
 - Activate Virtual environment in terminal: ```` source .venv/bin/activate ````
 
 - Install requirements.txt to get all dependencies. In terminal: ```` pip install -r requirements.txt ````
+
+- In Raspberry Pi Terminal set permissions: ```` sudo chmod 0700 /run/user/1000 ````
+
+---
+
+**Connect to Imagaing System (Raspberry Pi) via VNC remote desktop**
+
+- On PC download software such as Fing.conm to get IP adresses on all devices conntected to mobile HotSpot
+  
+  - Use the same mobile hotspot as the one used during configuration!
+
+- Download Real VNV viewer to PC and input Raspberry Pi IP adress to connect over WiFi
+
+- Open the folder containing the Python scripts and run GUI_Control.py to operate the system
