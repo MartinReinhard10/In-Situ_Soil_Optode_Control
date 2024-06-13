@@ -13,20 +13,53 @@ For additional questions please contact: martinreinhard@bio.au.dk
 
 - Write Raspberry Pi OS (Debian Bookworm 64-bit) with Desktop to MicroSD card.
 
-- Boot Raspberry Pi and create user.
+- Connect Raspberry Pi to a monitor, boot and create new user.
 
-- Connect to WiFi mobile hotspot: 
+- Connect to WiFi mobile hotspot in Terminal: ```sudo nano /etc/wpa_supplicant/wpa_supplicant.conf```
 
-- Edit the wpa_supplicant.conf file
+    - Edit the wpa_supplicant.conf file:
+````
+    ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
+    update_config=1
+    country=<YOUR TWO LETTER COUNTRY CODE>
 
-  In Terminal open with: ```sudo nano /etc/wpa_supplicant/wpa_supplicant.conf```
+    network={
+        ssid="<YOUR NETWORK NAME>"
+        psk="<YOUR NETWORK PASSWORD>"
+        key_mgmt=WPA-PSK
+    }
+````
+
+- Reboot Raspberry Pi
+
+- Update Raspberry Pi
+
+- Enable VNC and I2C communication in Raspberry Pi Configuration
+
+- Download Visual Studio Code to Raspberry Pi. See guide: https://code.visualstudio.com/docs/setup/raspberry-pi
+
+  -   Install Python and Jupyter Notebook extensions in VS code
+
+- Open VS Code and clone this repsitory via URL: https://github.com/MartinReinhard10/Operate_In-Situ_Soil_Optode
+
+- Create a Virtual Environment in working directory in VS code terminal: ```` python3 -m venv .venv --system-site-packages ````
+
+- Activate Virtual environment in terminal: ```` source .venv/bin/activate ````
+
+- Install requirements.txt to get all dependencies. In terminal: ```` pip install -r requirements.txt ````
+
+- In Raspberry Pi Terminal set permissions: ```` sudo chmod 0700 /run/user/1000 ````
+
+---
+
+**Connect to Imagaing System (Raspberry Pi) via VNC remote desktop**
+
+- On PC download software such as Fing.conm to get IP adresses on all devices conntected to mobile HotSpot
   
-  ```ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
-  update_config=1
-  country=<YOUR TWO LETTER COUNTRY CODE>
+  - Use the same mobile hotspot as the one used during configuration!
 
-  network={
-      ssid="<YOUR NETWORK NAME>"
-      psk="<YOUR NETWORK PASSWORD>"
-      key_mgmt=WPA-PSK
-  }```
+- Download Real VNV viewer to PC and input Raspberry Pi IP adress to connect over WiFi
+
+    - Log in using the user credentials applied during Rasoberry Pi setup
+
+- Open the folder containing the Python scripts and run GUI_Control.py to operate the system
