@@ -110,13 +110,14 @@ def capture_raw_background(exposure, iso):
 #Display Histogram and pixel information of previous image
 
 def display_histogram():
-    
+    print(np.shape(raw))
+    raw_crop = raw[0:3040,0:4056]
     #Get color channels in bayer order (BGGR)
-    red = raw[1::2,1::2]
-    green1 = raw[0::2,1::2]
-    green2 = raw[1::2,0::2]
+    red = raw_crop[1::2,1::2]
+    green1 = raw_crop[0::2,1::2]
+    green2 = raw_crop[1::2,0::2]
     green = np.add(green1,green2)/2
-    blue = raw[0::2,0::2]
+    blue = raw_crop[0::2,0::2]
     #Make histogram for red and green channel # Set camera controls to have good pixel saturation
     Colors=("red","green","blue")
     Channel_ids=(red,green,blue)
