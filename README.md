@@ -1,10 +1,11 @@
 This Repository includes Python scripts that enables operation of the In-Situ imaging system.
 Run the script GUI_Control.py on Raspberry Pi to operate the system through an interface. Some packages require Linux operating system and will NOT run on Windows or Mac OS
 
-For data processing of images or information on specfic system components please go to: https://github.com/MartinReinhard10/In-Situ_Soil_Optode_Data_Processing
+For information on specfic system components please go to: DOI: 10.5281/zenodo.13918877
+For additional questions and scripts for data processing of images please contact: martinreinhard@bio.au.dk
 
 Please refer to the paper ... for further information regarding the in-situ imaging system for planar optodes in soils.
-For additional questions please contact: martinreinhard@bio.au.dk
+
 
 ---
 **Setup of Raspberry Pi:**
