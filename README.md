@@ -41,13 +41,13 @@ Please refer to the paper ... for further information regarding the in-situ imag
 
   -   Install Python and Jupyter Notebook extensions in VS code
 
-- Open VS Code and clone the directory from GitHub.
+- Download repository from GitHub and set to working directory in VS code.
 
 - Create a Virtual Environment in working directory in VS code terminal: ```` python3 -m venv .venv --system-site-packages ````
 
 - Activate Virtual environment in terminal: ```` source .venv/bin/activate ````
 
-- Install requirements.txt to get all dependencies. In terminal: ```` pip install -r requirements.txt ````
+- Install requirements.txt to get all dependencies. In terminal: ```` pip3 install -r requirements.txt ````
 
 - In Raspberry Pi Terminal set permissions: ```` sudo chmod 0700 /run/user/1000 ````
 
@@ -55,7 +55,7 @@ Please refer to the paper ... for further information regarding the in-situ imag
 
 **Connect to Imagaing System (Raspberry Pi) via VNC remote desktop**
 
-- On PC download software such as Fing.conm to get IP adresses on all devices conntected to mobile HotSpot
+- On PC download software such as Fing.com to get IP adresses on all devices conntected to mobile HotSpot
   
   - Use the same mobile hotspot as the one used during configuration!
 
