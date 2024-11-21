@@ -41,7 +41,7 @@ Please refer to the paper ... for further information regarding the in-situ imag
 
   -   Install Python and Jupyter Notebook extensions in VS code
 
-- Open VS Code and set the working directory to the folder containing the scripts for controlling the system 
+- Open VS Code and clone the directory from GitHub.
 
 - Create a Virtual Environment in working directory in VS code terminal: ```` python3 -m venv .venv --system-site-packages ````
 
