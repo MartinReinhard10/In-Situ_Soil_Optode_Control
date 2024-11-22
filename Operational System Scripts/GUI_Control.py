@@ -1,4 +1,5 @@
 import time
+import os
 import tkinter as tk
 import Camera_Function as cf
 import Motor_Function as mf
@@ -333,14 +334,14 @@ def set_seqeunce_number(seq_num_trigger):
     seq_num = int(sequence_number_entry.get())
 
 
-
 # Add a variable to track the number of times the sequence has run
 sequence_count = 0
 
-import time
+# Define the path to the desktop
+desktop_path = os.path.expanduser("~/Desktop")
 
-# Function to execute the measurement sequence
-import time
+# Ensure the desktop directory exists (it should already exist on the Raspberry Pi)
+os.makedirs(desktop_path, exist_ok=True)
 
 def run_measurement_sequence():
     global sequence_count
@@ -358,7 +359,8 @@ def run_measurement_sequence():
     # Call the function to move the camera back to initial position
     mefu.move_to_initial_position(vert_image_range, hori_image_range, vert_overlap, direction, hori_overlap)
 
-    # Retrieve the temperature, and humidity from the GUI labels
+    # Retrieve the distance, temperature, and humidity from the GUI labels
+    distance = dsf.measure_distance()  # Assuming you have a function for distance measurement
     temperature_text = temp_label.cget("text")
     humidity_text = humidity_label.cget("text")
 
@@ -370,16 +372,19 @@ def run_measurement_sequence():
         temperature = "N/A"
         humidity = "N/A"
 
+    # Construct the log file path on the desktop
+    log_file_path = os.path.join(desktop_path, "measurement_log.txt")
+
     # Log the data to a TXT file
-    with open("measurement_log.txt", mode="a") as file:
+    with open(log_file_path, mode="a") as file:
         # Write header if it's the first sequence
         if sequence_count == 0:
-            file.write("Sequence Number | Temperature (°C) | Humidity (%) | Timestamp\n")
+            file.write("Sequence Number | Distance (cm) | Temperature (°C) | Humidity (%) | Timestamp\n")
             file.write("-" * 70 + "\n")
         
         # Write the data
         timestamp = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
-        file.write(f"{sequence_count + 1:>15} | {temperature:>16} | {humidity:>12} | {timestamp}\n")
+        file.write(f"{sequence_count + 1:>15} | {distance:>13} | {temperature:>16} | {humidity:>12} | {timestamp}\n")
 
     # Increment the sequence count
     sequence_count += 1
