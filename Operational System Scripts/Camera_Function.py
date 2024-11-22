@@ -239,63 +239,70 @@ def display_histogram():
     plt.close()  # Close the figure to release resources
     print("Mean RGB Intensity plot saved to desktop")
 
-#Capture multiple images for calibration
+# Capture multiple images for calibration
 def capture_calibration(o2, num_images, exposure, iso, delay):
     global raw_crop
     # Set camera controls
-    controls = {"ExposureTime": exposure, #microseconds
-            "AnalogueGain": iso, # 1 = ISO 100
-            "AeEnable": False, # Auto exposure and Gain
-            "AwbEnable": False,# Auto white Balance
-            "FrameDurationLimits": (114,239000000)} #Min/Max frame duration
+    controls = {
+        "ExposureTime": exposure,  # microseconds
+        "AnalogueGain": iso,  # 1 = ISO 100
+        "AeEnable": False,  # Auto exposure and Gain
+        "AwbEnable": False,  # Auto white Balance
+        "FrameDurationLimits": (114, 239000000),  # Min/Max frame duration
+    }
     # Setup config parameters
-    preview_config = picam2.create_preview_configuration(raw={"size": picam2.sensor_resolution, "format": "SBGGR12",},
-                                                     controls = controls)
+    preview_config = picam2.create_preview_configuration(
+        raw={"size": picam2.sensor_resolution, "format": "SBGGR12"},
+        controls=controls,
+    )
     picam2.configure(preview_config)
-    
-    
-    for i in range(num_images):
-        GPIO.output(led, GPIO.HIGH) # Turn on LED
 
-        picam2.start() # Start Camera
+    for i in range(num_images):
+        GPIO.output(led, GPIO.HIGH)  # Turn on LED
+
+        picam2.start()  # Start Camera
         time.sleep(2)
 
-        #Capture image in unpacked RAW format 12bit dynamic range (16bit array)
+        # Capture image in unpacked RAW format 12-bit dynamic range (16-bit array)
         raw = picam2.capture_array("raw").view(np.uint16)
 
-        GPIO.output(led, GPIO.LOW) # Turn off LED
+        GPIO.output(led, GPIO.LOW)  # Turn off LED
 
-        print(picam2.capture_metadata())
+        metadata = picam2.capture_metadata()  # Capture metadata
 
         picam2.stop_preview()
         picam2.stop()
 
-        raw_crop = raw[0:3040, 0:4056] # Remove padding from each row of pixels
+        raw_crop = raw[0:3040, 0:4056]  # Remove padding from each row of pixels
 
         base_filename = "RAW"
-        save_dir = '/home/martinoptode/Desktop/Calibration_Images/'
+        save_dir = "/home/martinoptode/Desktop/Calibration_Images/"
 
         # Create a new folder with date stamp if it does not exist
         date_str = datetime.now().strftime("%Y-%m-%d")
-        save_dir = os.path.join(save_dir, f'{base_filename}_{date_str}')
+        save_dir = os.path.join(save_dir, f"{base_filename}_{date_str}")
         if not os.path.exists(save_dir):
             os.makedirs(save_dir)
 
         # Construct the filename with the user-defined suffix
-        #filename = f'{base_filename}_{date_str}_air_sat_{suffix}.tiff'
-
-        # Check if the filename with the user-defined suffix already exists in the folder
         count = 1
-        filename = f'{base_filename}_{date_str}_{count}_air_sat{o2}.tiff'
-        while os.path.exists(os.path.join(save_dir, filename)):
-        # If the filename exists, add a number to the suffix and try again
-            filename = f'{base_filename}_{date_str}_{count}_air_sat{o2}.tiff'
+        image_filename = f"{base_filename}_{date_str}_{count}_air_sat{o2}.tiff"
+        metadata_filename = f"{base_filename}_{date_str}_{count}_air_sat{o2}_metadata.txt"
+        while os.path.exists(os.path.join(save_dir, image_filename)):
+            # If the filename exists, add a number to the suffix and try again
             count += 1
-            # Save the image with the updated filename
-        tifffile.imwrite(os.path.join(save_dir, filename), raw_crop)
+            image_filename = f"{base_filename}_{date_str}_{count}_air_sat{o2}.tiff"
+            metadata_filename = f"{base_filename}_{date_str}_{count}_air_sat{o2}_metadata.txt"
+
+        # Save the image with the updated filename
+        tifffile.imwrite(os.path.join(save_dir, image_filename), raw_crop)
+
+        # Save the metadata to a text file
+        with open(os.path.join(save_dir, metadata_filename), "w") as metadata_file:
+            for key, value in metadata.items():
+                metadata_file.write(f"{key}: {value}\n")
 
         time.sleep(delay)
-
 
 def capture_measurements(exposure, iso, seq_num):
     global raw
