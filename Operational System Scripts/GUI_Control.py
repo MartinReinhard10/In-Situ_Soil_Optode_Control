@@ -359,8 +359,7 @@ def run_measurement_sequence():
     # Call the function to move the camera back to initial position
     mefu.move_to_initial_position(vert_image_range, hori_image_range, vert_overlap, direction, hori_overlap)
 
-    # Retrieve the distance, temperature, and humidity from the GUI labels
-    distance = dsf.measure_distance()  # Assuming you have a function for distance measurement
+    # Retrieve the temperature, and humidity from the GUI labels
     temperature_text = temp_label.cget("text")
     humidity_text = humidity_label.cget("text")
 
@@ -379,12 +378,12 @@ def run_measurement_sequence():
     with open(log_file_path, mode="a") as file:
         # Write header if it's the first sequence
         if sequence_count == 0:
-            file.write("Sequence Number | Distance (cm) | Temperature (°C) | Humidity (%) | Timestamp\n")
+            file.write("Sequence Number | Temperature (°C) | Humidity (%) | Timestamp\n")
             file.write("-" * 70 + "\n")
         
         # Write the data
         timestamp = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
-        file.write(f"{sequence_count + 1:>15} | {distance:>13} | {temperature:>16} | {humidity:>12} | {timestamp}\n")
+        file.write(f"{sequence_count + 1:>15} | {temperature:>16} | {humidity:>12} | {timestamp}\n")
 
     # Increment the sequence count
     sequence_count += 1
