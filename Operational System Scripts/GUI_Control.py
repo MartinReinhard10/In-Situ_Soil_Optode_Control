@@ -337,13 +337,18 @@ def set_seqeunce_number(seq_num_trigger):
 # Add a variable to track the number of times the sequence has run
 sequence_count = 0
 
+import time
+
 # Function to execute the measurement sequence
 def run_measurement_sequence():
     global sequence_count
 
-     # Get the total number of sequences and sequence delay from the input fields
+    # Get the total number of sequences and sequence delay from the input fields
     total_sequences = int(total_sequences_entry.get())
     sequence_delay = int(sequence_delay_entry.get())
+
+    # Record the start time
+    start_time = time.time()
 
     # Run the measurement sequence logic
     mefu.measurement_sequence(vert_image_range, hori_image_range, vert_overlap, hori_overlap, direction, exposure_time, iso_value, seq_num)
@@ -354,22 +359,23 @@ def run_measurement_sequence():
     # Increment the sequence count
     sequence_count += 1
     print(f"Completed sequence {sequence_count}\n")
-   
-    #cf.GPIO.output(25,cf.GPIO.HIGH)
+
+    # Record the end time and calculate execution time
+    execution_time = time.time() - start_time
+
+    # Calculate remaining delay time
+    remaining_delay = max(0, sequence_delay - execution_time)
+
     # Check if the desired number of sequences have run
     if sequence_count < total_sequences:
-        print(f"Waiting for {sequence_delay} seconds before starting the next sequence...\n")
-        
-        time.sleep(sequence_delay)
-        #cf.GPIO.output(25,cf.GPIO.LOW)
+        print(f"Waiting for {remaining_delay:.2f} seconds before starting the next sequence...\n")
+        time.sleep(remaining_delay)
 
         # Call the function recursively to run the next sequence
         run_measurement_sequence()
     else:
-        print(f"All sequences completed!\n")
-        #cf.GPIO.output(25,cf.GPIO.LOW)
-    
-        
+        print("All sequences completed!\n")
+
 # Function to start the measurement sequence
 def start_measurement():
     global sequence_count
