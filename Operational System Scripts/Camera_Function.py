@@ -61,29 +61,66 @@ def capture_jpeg():
 def capture_raw(exposure, iso):
     global raw
     # Set camera controls
-    controls = {"ExposureTime": exposure, #microseconds
-            "AnalogueGain": iso, # 1 = ISO 100
-            "AeEnable": False, # Auto exposure and Gain
-            "AwbEnable": False,# Auto white Balance
-            "FrameDurationLimits": (114,239000000)} #Min/Max frame duration
+    controls = {
+        "ExposureTime": exposure,  # microseconds
+        "AnalogueGain": iso,  # 1 = ISO 100
+        "AeEnable": False,  # Auto exposure and Gain
+        "AwbEnable": False,  # Auto white Balance
+        "FrameDurationLimits": (114, 239000000),  # Min/Max frame duration
+    }
     # Setup config parameters
-    preview_config = picam2.create_preview_configuration(raw={"size": picam2.sensor_resolution, "format": "SBGGR12",},
-                                                     controls = controls) 
+    preview_config = picam2.create_preview_configuration(
+        raw={"size": picam2.sensor_resolution, "format": "SBGGR12"},
+        controls=controls,
+    )
     picam2.configure(preview_config)
-    
-    GPIO.output(led, GPIO.HIGH) 
-    picam2.start() 
+
+    GPIO.output(led, GPIO.HIGH)
+    picam2.start()
     time.sleep(2)
-    #Capture image in unpacked RAW format 12bit dynamic range (16bit array)
+
+    # Capture image in unpacked RAW format 12-bit dynamic range (16-bit array)
     raw = picam2.capture_array("raw").view(dtype="uint16")
-    GPIO.output(led, GPIO.LOW) 
-    print(picam2.capture_metadata())
+    GPIO.output(led, GPIO.LOW)
+
+    metadata = picam2.capture_metadata()  # Capture metadata
     picam2.stop_preview()
     picam2.stop()
 
     print("Make Histogram to see Pixel Values")
 
+    # Define save directory and filenames
+    base_filename = "RAW"
+    save_dir = "/home/martinoptode/Desktop/Single_Image/"
+
+    # Create a new folder with date stamp if it does not exist
+    date_str = datetime.now().strftime("%Y-%m-%d")
+    save_dir = os.path.join(save_dir, f"{base_filename}_{date_str}")
+    if not os.path.exists(save_dir):
+        os.makedirs(save_dir)
+
+    # Construct filenames
+    count = 1
+    image_filename = f"{base_filename}_{date_str}_{count}.tiff"
+    metadata_filename = f"{base_filename}_{date_str}_{count}_metadata.txt"
+    while os.path.exists(os.path.join(save_dir, image_filename)):
+        count += 1
+        image_filename = f"{base_filename}_{date_str}_{count}.tiff"
+        metadata_filename = f"{base_filename}_{date_str}_{count}_metadata.txt"
+
+    # Save the image
+    tifffile.imwrite(os.path.join(save_dir, image_filename), raw)
+
+    # Save metadata
+    with open(os.path.join(save_dir, metadata_filename), "w") as metadata_file:
+        for key, value in metadata.items():
+            metadata_file.write(f"{key}: {value}\n")
+
+    print(f"Image saved as {image_filename}")
+    print(f"Metadata saved as {metadata_filename}")
+
     # Capture single RAW image WIthotut UV LED on
+
 def capture_raw_background(exposure, iso):
     global raw
     # Set camera controls
