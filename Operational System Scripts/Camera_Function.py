@@ -322,6 +322,7 @@ def capture_measurements(exposure, iso, seq_num):
     time.sleep(2)
     #Capture image in unpacked RAW format 12bit dynamic range (16bit array)
     raw = picam2.capture_array("raw").view(dtype="uint16")
+    time.sleep(1)
     GPIO.output(led, GPIO.LOW) 
     print(picam2.capture_metadata())
     picam2.stop()

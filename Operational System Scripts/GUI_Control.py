@@ -49,7 +49,7 @@ speed_scale_vertical.bind("<ButtonRelease-1>", set_step_speed_vertical)
 def set_step_speed_rotate(event):
     mf.set_step_speed_rotate(speed_scale_rotate.get())
 speed_label_rotate = tk.Label(motor_control, text="Rotate Speed Control (Fast --> Slow):").grid(row=3,column=0,padx=1,pady=1)
-speed_scale_rotate = tk.Scale(motor_control, from_=0.0005, to=0.001, resolution=0.0001, orient=tk.HORIZONTAL,length=100)
+speed_scale_rotate = tk.Scale(motor_control, from_=0.001, to=0.002, resolution=0.0001, orient=tk.HORIZONTAL,length=100)
 speed_scale_rotate.configure(length=200)
 speed_scale_rotate.grid(row=3,column=1,padx=1,pady=1)
 speed_scale_rotate.bind("<ButtonRelease-1>", set_step_speed_rotate)
@@ -96,7 +96,7 @@ top_button = tk.Button(motor_control, text="Move to the Top Position", command=m
 # Distance Sensor
 distance_label = tk.Label(motor_control, text="Distance from Bottom: ")
 distance_label.grid(row=8,column=0,padx=10,pady=10)
-dsf.measure_distance(distance_label)
+#dsf.measure_distance(distance_label)
 
 # Temperature and humidity 
 temp_humid_frame = tk.Frame(main_frame,width=100,height=100)
@@ -391,6 +391,7 @@ def run_measurement_sequence():
 
     # Record the end time and calculate execution time
     execution_time = time.time() - start_time
+    print(execution_time)
 
     # Calculate remaining delay time
     remaining_delay = max(0, sequence_delay - execution_time)
